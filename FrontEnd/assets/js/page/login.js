@@ -1,6 +1,19 @@
-export async function getUsers() {
+// const email = document.getElementById("email").value
+// const password = document.getElementById("password").value
 
-    const reponse = await fetch("http://localhost:5678/api/users/login/")
-    const reponsejson = await reponse.json()
-    return reponsejson
-}
+// export async function login() {
+//     const users = await getData("/users/login")
+//     consologe.log(users)
+// }
+
+// if (email === "sophie.bluel@test.tld" && password === "S0phie") {
+
+//     // Authentication successful
+//     document.getElementById("message").textContent = "Login successful!"
+
+//     // Redirect or do something else after successful login
+// } else {
+
+//     // Authentication failed
+//     document.getElementById("message").textContent = "Incorrect email or password. Please try again."
+// }

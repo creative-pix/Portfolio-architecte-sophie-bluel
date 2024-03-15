@@ -1,87 +1,79 @@
+import { API_URL } from "../utils/api.js"
+import { getData } from "../utils/api.js"
+import { getTemplate } from "../utils/template.js"
+
 //  Variables
 
 const menu = document.querySelector('.menu')
 const gallery = document.querySelector(".gallery")
 
-//  Récupération dynamique des travaux depuis le back-end
-export async function getWorks() {
-    const reponse = await fetch("http://localhost:5678/api/works/")
-    const reponsejson = await reponse.json()
-    return reponsejson
-}
-//--------------------------------------------------------------------//
-
 //  Affichage des travaux dans le dom
 export async function displayWorks() {
 
-    const arrayWorks = await getWorks()
+    const arrayWorks = await getData("works")
     
-//  Creation du tableaux des travaux dans les balises 
+//  Creation du tableaux des travaux avec un template 
     arrayWorks.forEach((work) => {
         createWorks(work)
     })
 }
-    function createWorks(work) {    
-        const figure = document.createElement("figure")
-        const img = document.createElement("img")
-        const figcaption = document.createElement("figcaption")
+        function createWorks(work) {    
 
-        gallery.appendChild(figure)
-        figure.appendChild(img)
-        figure.appendChild(figcaption)
-        
-        img.src = work.imageUrl
-        figcaption.textContent = work.title
+        const cards = getTemplate("mon-template", ".card")
+        cards.querySelector("figcaption").textContent = work.title
+        cards.querySelector("img").src = work.imageUrl
+        gallery.appendChild(cards)
 }    
 //  -----------------------------------------------------------------//
 
-//  Récupération des catégories
-export async function getCategories() {
-
-    const reponse = await fetch("http://localhost:5678/api/categories")
-    const reponsejson = await reponse.json()
-    return reponsejson
-}
 //  Affichage des catégories
 export async function displayMenuButtons()  {
 
-    const arrayCategories = await getCategories()
+    const arrayCategories = await getData("categories")
+    const Allbutton = document.createElement("button")
+    menu.appendChild(Allbutton)
 
+    Allbutton.id = "0"
+    Allbutton.textContent = "Tous"
+    Allbutton.style.width = "100px"
+    
     arrayCategories.forEach((category) => { 
         const button = document.createElement("button")
-
         menu.appendChild(button)
-        button.classList.add("btn")   // problème //
+        
         button.textContent = category.name
         button.id = category.id
     })
+    document.getElementById("1").style.width = "100px"
+    document.getElementById("2").style.width = "140px"
 }
 //  --------------------------------------------------------------- //
 
 //  Filtration de la galerie par son category id
 export async function  filterGallery() {
 
-    const allworks = await getWorks()
+    const allworks = await getData("works")
     const buttons = document.querySelectorAll(".menu button")
 
     buttons.forEach((button) => {
         button.addEventListener("click", (e) => {
 
-//  Affectation de l'appel de l'évenement à l'Id du boutton   
+//  Affectation de l'appel de l'évenement à l'Id du boutton
         let BtnId = e.target.id   
         console.log(BtnId)
 
-//  Efface la galerie et test
+//  Efface la galerie et fait le test
         gallery.innerHTML = ""
         if (BtnId == "0") {
             displayWorks()
         }
         else {
 
-//  tri de la galerie avec la methode filter             
+//  tri de la galerie avec la methode filter
             const TriCategory = allworks.filter((work) => {
                 return work.category.id == BtnId       
             })
+            
 //  Categories sans doublons            
             const set = new Set(TriCategory)
             TriCategory.forEach((set) => {

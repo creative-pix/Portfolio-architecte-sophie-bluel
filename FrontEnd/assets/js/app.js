@@ -1,19 +1,26 @@
-import { getWorks, displayWorks, } from "./page/home.js"
+import { displayWorks } from "./page/home.js"
 
-getWorks()
+
 displayWorks()
 
 // ---------------------------------------------------------- //
 
-import { getCategories, displayMenuButtons } from "./page/home.js"
+import { displayMenuButtons } from "./page/home.js"
 
-getCategories()
+
 displayMenuButtons()
 
 // ----------------------------------------------------------- //
 
 import { filterGallery } from "./page/home.js"
 
+
 filterGallery()
+
+// ----------------------------------------------------------// 
+
+// import { login } from "./page/login.js"
+
+// login()
 
 
